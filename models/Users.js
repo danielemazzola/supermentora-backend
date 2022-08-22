@@ -13,7 +13,7 @@ const userSchema = mongoose.Schema({
     trim: true,
     unique: true
   },
-  telefono: {
+  phonenumber: {
     type: Number,
     required: true
   },
@@ -41,7 +41,7 @@ const userSchema = mongoose.Schema({
   }
 },
 {
-  timestamp: true
+  timestamps: true
 })
 
 // ENCRIPATR LA PASSWORD DE REGISTRO

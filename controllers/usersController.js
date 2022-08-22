@@ -9,7 +9,7 @@ const login = async (req, res) => {
   const user = await User.findOne({ email })
   if (!user) {
     const error = new Error('User does not exist')
-    return res.status(412).json({ status: 412, msg: error.message })
+    return res.status(404).json({ status: 404, msg: error.message })
   }
   // COMPROBAR SI EL ESTADO DEL USUARIO ES CONFIRMADO
   if (!user.confirmed) {
@@ -28,7 +28,7 @@ const login = async (req, res) => {
       token: createJWT(user._id)
     })
   } else {
-    const error = new Error('wrong password')
+    const error = new Error('Wrong password')
     return res.status(403).json({ status: 403, msg: error.message })
   }
 }
@@ -50,10 +50,10 @@ const register = async (req, res) => {
     const saveUser = await user.save()
     res.json(saveUser)
   } catch (error) {
-    return res.status(400).json({ status: 400, msg: 'Error 400' })
+    console.log(error.message)
   }
 }
-
+// CONFIRMANDO ACOUNT
 const confirmCount = async (req, res) => {
   const { token } = req.params
   const confirmUSer = await User.findOne({ token })
@@ -67,12 +67,68 @@ const confirmCount = async (req, res) => {
     await confirmUSer.save()
     res.json({ msg: 'user confirmed successfully' })
   } catch (error) {
-    return res.status(400).json({ status: 400, msg: 'Error 400' })
+    console.log(error.message)
   }
+}
+// RECUPERAR PASSWORD
+const recoverPassword = async (req, res) => {
+  const { email } = req.body
+  const user = await User.findOne({ email })
+  if (!user) {
+    const error = new Error('User does not exist')
+    return res.status(404).json({ status: 404, msg: error.message })
+  }
+  try {
+    user.token = createId()
+    await user.save()
+    res.json({ msg: 'We have sent instructions to your email to reset your password' })
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+// VALIDAR EL TOKEN PARA LA RECUPERACIÓN DE PASSWORD
+const recoverPasswordToken = async (req, res) => {
+  const { token } = req.params
+  const validateToken = await User.findOne({ token })
+  if (!validateToken) {
+    const error = new Error('Invalid token')
+    return res.status(401).json({ status: 401, msg: error.message })
+  } else {
+    res.json({ msg: 'Valid Token' })
+  }
+}
+// NUEVA PASSWORD
+const newPassword = async (req, res) => {
+  const { token } = req.params
+  const { password } = req.body
+
+  const user = await User.findOne({ token })
+  if (user) {
+    user.password = password
+    user.token = ''
+    try {
+      await user.save()
+      res.json({ msg: 'Password modified successfully' })
+    } catch (error) {
+      console.log(error.message)
+    }
+  } else {
+    const error = new Error('Invalid token')
+    return res.status(404).json({ status: 404, msg: error.message })
+  }
+}
+// ACCEDIENDO A LA INFORMACIÓN DEL USUARIO
+const perfil = async (req, res) => {
+  const { user } = req
+  res.json({ user })
 }
 
 export {
   login,
   register,
-  confirmCount
+  confirmCount,
+  recoverPassword,
+  recoverPasswordToken,
+  newPassword,
+  perfil
 }
