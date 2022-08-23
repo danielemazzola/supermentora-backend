@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-#### REACT APPLICATION
+### REACT APPLICATION
 
 Proyecto FullStack SUPERMENTORA.
 
@@ -31,4 +30,3 @@ GET: '/api/user/confirm/:token' -> Validacion de token para confirmar al usuraio
 POST: 'localhost:4000/api/user/forgot-password' -> Recuperación de password;
 POST: 'localhost:4000/api/user/forgot-password/:token' -> Recuperación de password + token;
 GET: '/perfil' -> JSON de usuario despues de loguearse;
->>>>>>> ee1d5e81d321f0df9988fabb52458db1d5b667f6
