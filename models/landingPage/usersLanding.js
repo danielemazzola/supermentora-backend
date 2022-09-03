@@ -11,6 +11,11 @@ const usersLanding = mongoose.Schema({
         trim:true,
         required:true
     },
+    countrie:{
+        type:String,
+        trim:true,
+        required:true
+    },
     phonenumber:{
         type:String,
         trim:true,
