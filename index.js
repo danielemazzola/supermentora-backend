@@ -14,7 +14,7 @@ dotenv.config()
 connectionDB()
 
 //conf CORS
-const whiteList = [process.env.URL_FRONT, 'https://supermentora.netlify.app/'];
+const whiteList = [process.env.URL_FRONT, 'https://supermentora.netlify.app'];
 const corsOption = {
   origin: function (origin, callback) {
     if (whiteList.includes(origin)) {
