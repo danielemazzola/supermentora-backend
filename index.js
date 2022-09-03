@@ -14,7 +14,7 @@ dotenv.config()
 connectionDB()
 
 //conf CORS
-const whiteList = [process.env.URL_FRONT, process.env.URL_FRONT2, process.env.URL_FRONT_PRO];
+const whiteList = [process.env.URL_FRONT, process.env.URL_FRONT2, process.env.URL_FRONT3, process.env.URL_FRONT_PRO];
 const corsOption = {
   origin: function (origin, callback) {
     if (whiteList.includes(origin)) {
